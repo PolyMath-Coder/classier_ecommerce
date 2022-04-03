@@ -13,6 +13,8 @@ app.get('/', (req, res) => {
   res.send('Welcome to the open page... Yeaaa!');
 });
 
+app.use('/v1', require('./router/route'));
+
 app.listen(port, () => {
   logger.info(`Server up and running on port ${port}`);
 });
