@@ -15,13 +15,20 @@ const handleError = (req, statusCode, res) => {
   });
 };
 
-const errorHandler = (err) => {
+const registerErrorHandler = (err) => {
   console.log(err.message, err.code);
   let errors = { email: '', password: '' };
 
   //duplicate error code
   if (err.code === 11000) {
     errors.email = 'Oops! This email is already registered with';
+    return errors;
+  }
+};
+const createProductHandler = (err) => {
+  let errors = { title: '', desc: '' };
+  if (err.code === 11000) {
+    errors.title = 'Oopss! This product has already been created!';
     return errors;
   }
 };
@@ -32,4 +39,9 @@ const responseHandler = (res, statusCode, message, data = {}) => {
   res.status(statusCode).send({ status: 'success', message, data });
 };
 
-module.exports = { handleError, AppError, responseHandler, errorHandler };
+module.exports = {
+  registerErrorHandler,
+  createProductHandler,
+  AppError,
+  responseHandler,
+};
