@@ -3,7 +3,10 @@ require('dotenv').config();
 const connect = require('./config/mongoose');
 const logger = require('./helpers/logger');
 const { json, urlencoded } = require('body-parser');
+const request = require('request');
 const port = process.env.PORT;
+const Redis = require('ioredis');
+const redis = new Redis();
 const app = express();
 
 app.use(json());

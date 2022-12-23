@@ -17,7 +17,7 @@ const router = Router();
 router.post('/', verifyTokenAndAdmin, createProduct);
 router.put('/:id', verifyTokenAndAdmin, updateProduct);
 router.delete('/:id', verifyTokenAndAdmin, deleteProduct);
-router.get('/find/', getAllProducts);
+router.get('/find/', verifyToken, getAllProducts);
 //
 
 module.exports = router;

@@ -4,13 +4,14 @@ require('dotenv').config();
 const secretKey = process.env.JSONWEB_SECRET;
 
 const verifyToken = (req, res, next) => {
-  const authHeader = req.headers.token;
+  const authHeader = req.headers['x-auth'];
   if (authHeader) {
     const token = authHeader.split(' ')[1];
+    console.log(token);
     jwt.verify(token, secretKey, (err, user) => {
       if (err) res.status(400).json('Token is not valid...');
-      logger.error('Your token does not seem valid.');
       req.user = user;
+      // console.log(req.user);
       next();
     });
   } else {
@@ -29,6 +30,7 @@ const verifyTokenAndAuthorization = (req, res, next) => {
 };
 const verifyTokenAndAdmin = (req, res, next) => {
   verifyToken(req, res, () => {
+    console.log(req.user);
     if (req.user.isAdmin) {
       next();
     } else {

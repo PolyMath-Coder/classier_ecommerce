@@ -7,6 +7,9 @@ const { Schema } = mongoose;
 
 const userSchema = new Schema(
   {
+    name: {
+      type: String,
+    },
     username: {
       type: String,
       required: true,
@@ -17,12 +20,24 @@ const userSchema = new Schema(
       type: String,
       required: true,
       unique: true,
-      trime: true,
+      trim: true,
     },
     password: {
       type: String,
       required: true,
       minlength: 6,
+    },
+    amount: {
+      type: Number,
+    },
+    reference: {
+      type: String,
+    },
+    stripe_customer_id: {
+      type: String,
+    },
+    subscriptions: {
+      type: Array,
     },
     isAdmin: {
       type: Boolean,

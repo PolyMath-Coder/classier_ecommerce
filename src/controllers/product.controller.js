@@ -37,7 +37,7 @@ const getAllProducts = async (req, res) => {
     if (query) {
       products = await Product.find()
         .sort({ createdAt: -1 })
-        .select({ img: 0, size: 0, color: 0 })
+        // .select({ img: 0, size: 0, color: 0 })
         .limit(2)
         .exec();
     } else if (categoryQuery) {

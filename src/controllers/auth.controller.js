@@ -1,4 +1,6 @@
 const User = require('../models/User.model');
+const Redis = require('ioredis');
+const redis = new Redis();
 const AppError = require('../helpers/error');
 const { responseHandler, registerErrorHandler } = require('../helpers/error');
 const logger = require('../helpers/logger');
@@ -16,6 +18,7 @@ const registerUser = async (req, res) => {
     email: req.body.email,
     password: req.body.password,
   });
+  console.log(newUser);
 
   try {
     const savedUser = await newUser.save();
@@ -32,6 +35,7 @@ const loginUser = async (req, res) => {
   const { username, password } = req.body;
   try {
     const user = await User.login(username, password);
+    // console.log(user);
     const accessToken = jwt.sign(
       { id: user._id, isAdmin: user.isAdmin },
       secretKey,
@@ -83,6 +87,8 @@ const getUser = async (req, res) => {
   try {
     const { id } = req.params;
     const user = await User.findById(id);
+    const cached = redis.set(id, JSON.stringify(user));
+    console.log(cached);
     const { password, ...others } = user._doc;
     res.status(200).json({ data: others });
     logger.info('API displays details of a preferred user.');
